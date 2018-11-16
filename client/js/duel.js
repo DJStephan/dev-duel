@@ -1,3 +1,4 @@
+
 /* eslint-disable no-undef */
 /*
   TODO
@@ -21,20 +22,38 @@ $('form').submit(() => {
     .then(data => {
       console.log(`Got data for ${usernameLeft} and ${usernameRight}`)
       console.log(data)
-      // $('.username').text(data.username)
-      // $('.full-name').text(data.fullName)
-      // $('.email').text(data.email)
-      // $('.bio').text(data.bio)
-      // $('.avatar').attr('src', data.avatar)
-      // $('.titles').text(data.titles)
-      // $('.favorite-language').text(data.favoriteLanguage)
-      // $('.total-stars').text(data.totalStars)
-      // $('.most-starred').text(data.highestStarCount)
-      // $('.public-repos').text(data.publicRepos)
-      // $('.perfect-repos').text(data.perfectRepos)
-      // $('.followers').text(data.followers)
-      // $('.following').text(data.following)
-      // $('.location').text(data.location)
+      const userLeft = data[0]
+      const userRight = data[1]
+      $('.duel-container').removeClass('hide')
+      $('.left > .username').text(userLeft.username)
+      $('.left > .full-name').text(userLeft.fullName)
+      $('.left > .email').text(userLeft.email)
+      $('.left > .bio').text(userLeft.bio)
+      $('.left > .avatar').attr('src', userLeft.avatar)
+      $('.left > .stats > .stat > .titles').text(userLeft.titles)
+      $('.left > .stats > .stat > .favorite-language').text(userLeft.favoriteLanguage)
+      $('.left > .stats > .stat > .total-stars').text(userLeft.totalStars)
+      $('.left > .stats > .stat > .highest-starred').text(userLeft.highestStarCount)
+      $('.left > .stats > .stat > .public-repos').text(userLeft.publicRepos)
+      $('.left > .stats > .stat > .perfect-repos').text(userLeft.perfectRepos)
+      $('.left > .stats > .stat > .followers').text(userLeft.followers)
+      $('.left > .stats > .stat > .following').text(userLeft.following)
+      $('.left > .stats > .stat > .location').text(userLeft.location)
+
+      $('.right > .username').text(userRight.username)
+      $('.right > .full-name').text(userRight.fullName)
+      $('.right > .email').text(userRight.email)
+      $('.right > .bio').text(userRight.bio)
+      $('.right > .avatar').attr('src', userRight.avatar)
+      $('.right > .stats > .stat > .titles').text(userRight.titles)
+      $('.right > .stats > .stat > .favorite-language').text(userRight.favoriteLanguage)
+      $('.right > .stats > .stat > .total-stars').text(userRight.totalStars)
+      $('.right > .stats > .stat > .highest-starred').text(userRight.highestStarCount)
+      $('.right > .stats > .stat > .public-repos').text(userRight.publicRepos)
+      $('.right > .stats > .stat > .perfect-repos').text(userRight.perfectRepos)
+      $('.right > .stats > .stat > .followers').text(userRight.followers)
+      $('.right > .stats > .stat > .following').text(userRight.following)
+      $('.right > .stats > .stat > .location').text(userRight.location)
       /*
         TODO
         Attach the data returned to the DOM
