@@ -4,6 +4,7 @@ import validate from 'express-validation'
 import token from '../../token'
 
 import validation from './validation'
+import { getUserData } from '../../server/lib/lib.js'
 
 export default () => {
   let router = Router()
@@ -24,7 +25,9 @@ export default () => {
 
   /** GET /api/user/:username - Get user */
   router.get('/user/:username', validate(validation.user), (req, res) => {
-    console.log(req.params)
+    
+    let url = `https://api.github.com/users/${req.params.username}`
+     getUserData(url).then(data => res.send(data))
     /*
       TODO
       Fetch data for user specified in path variable
@@ -34,7 +37,8 @@ export default () => {
 
   /** GET /api/users? - Get users */
   router.get('/users/', validate(validation.users), (req, res) => {
-    console.log(req.query)
+    let url = 'https://api.github.com/users/'
+    Promise.all([getUserData(url + req.query.username[0]), getUserData(url + req.query.username[1])]).then(data => res.send(data))
     /*
       TODO
       Fetch data for users specified in query
