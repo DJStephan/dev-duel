@@ -2,8 +2,7 @@ import token from '../../token'
 import axios from 'axios'
 
 
-export const getUserData = (url, req, res) => {
-    //console.log(url)
+export const getUserData = (url, req, res, next) => {
     let userData = {}
     let urls = {}
     
@@ -21,8 +20,6 @@ export const getUserData = (url, req, res) => {
           userData.publicRepos = data.public_repos
           urls.reposUrl = data.repos_url
           userData.titles = []
-          //console.log(userData)
-          //res.send(userData)
           return axios.get(urls.reposUrl, {headers: {Authorization: token}})
         })
         .then(data => data.data)
@@ -35,7 +32,10 @@ export const getUserData = (url, req, res) => {
             userData.titles.push(...getTitles(data, userData.followers, userData.following))
             return userData
         })
-        .catch(err => err)
+        .catch(err => {
+            throw err
+        })
+        
 }
 
 const getStars = repos => {

@@ -21,8 +21,11 @@ $('form').submit(() => {
   if(usernameLeft && usernameRight){
     fetch(`${USERS_URL}?username=${usernameLeft}&username=${usernameRight}`)
     .then(response => {
-      response.json()
-     }) 
+      if(response.status === 404){
+        throw new Error('User doesn\'t exist')
+      }
+      return response.json()
+    }) 
     .then(data => {
       console.log(`Got data for ${usernameLeft} and ${usernameRight}`)
       console.log(data)
@@ -70,6 +73,9 @@ $('form').submit(() => {
     })
     .catch(err => {
       console.log(err)
+      $('.duel-container').addClass('hide')
+      $('.duel-error').removeClass('hide')
+      $('.duel-error').text(`One of the users doesn\'t exist doesn't exist!`)
 
     })
 
@@ -77,68 +83,5 @@ $('form').submit(() => {
     $('.no-user').removeClass('hide')
     $('.duel-container').addClass('hide')
   }
-  // fetch(`${USERS_URL}?username=${usernameLeft}&username=${usernameRight}`)
-  //   .then(response => response.json()) // Returns parsed json data from response body as promise
-  //   .then(data => {
-  //     console.log(`Got data for ${usernameLeft} and ${usernameRight}`)
-  //     console.log(data)
-  //     const userLeft = data[0]
-  //     const userRight = data[1]
-  //     let userLeftPoints
-  //     let userRightPoints
-  //     let winner
-  //     [userLeftPoints, userRightPoints, winner] = findWinner(userLeft, userRight)
-  //     console.log(`left user has ${userLeftPoints} points, right user has ${userRightPoints} points`)
-  //     $('.duel-container').removeClass('hide')
-  //     $('.left > .username').text(userLeft.username)
-  //     $('.left > .full-name').text(userLeft.fullName)
-  //     $('.left > .email').text(userLeft.email)
-  //     $('.left > .bio').text(userLeft.bio)
-  //     $('.left > .avatar').attr('src', userLeft.avatar)
-  //     $('.left > .stats > .stat > .titles').text(userLeft.titles)
-  //     $('.left > .stats > .stat > .favorite-language').text(userLeft.favoriteLanguage)
-  //     $('.left > .stats > .stat > .total-stars').text(userLeft.totalStars)
-  //     $('.left > .stats > .stat > .highest-starred').text(userLeft.highestStarCount)
-  //     $('.left > .stats > .stat > .public-repos').text(userLeft.publicRepos)
-  //     $('.left > .stats > .stat > .perfect-repos').text(userLeft.perfectRepos)
-  //     $('.left > .stats > .stat > .followers').text(userLeft.followers)
-  //     $('.left > .stats > .stat > .following').text(userLeft.following)
-  //     $('.left > .stats > .stat > .location').text(userLeft.location)
-
-  //     $('.right > .username').text(userRight.username)
-  //     $('.right > .full-name').text(userRight.fullName)
-  //     $('.right > .email').text(userRight.email)
-  //     $('.right > .bio').text(userRight.bio)
-  //     $('.right > .avatar').attr('src', userRight.avatar)
-  //     $('.right > .stats > .stat > .titles').text(userRight.titles)
-  //     $('.right > .stats > .stat > .favorite-language').text(userRight.favoriteLanguage)
-  //     $('.right > .stats > .stat > .total-stars').text(userRight.totalStars)
-  //     $('.right > .stats > .stat > .highest-starred').text(userRight.highestStarCount)
-  //     $('.right > .stats > .stat > .public-repos').text(userRight.publicRepos)
-  //     $('.right > .stats > .stat > .perfect-repos').text(userRight.perfectRepos)
-  //     $('.right > .stats > .stat > .followers').text(userRight.followers)
-  //     $('.right > .stats > .stat > .following').text(userRight.following)
-  //     $('.right > .stats > .stat > .location').text(userRight.location)
-
-  //     $('.winner-container').removeClass('hide')
-  //     $('.winner-username').text(`By a score of ${userLeftPoints} to ${userRightPoints} the winner is ${winner}!`)
-      /*
-        TODO
-        Attach the data returned to the DOM
-        The data currently hard-coded into the DOM is placeholder data
-       */
-
-    //   $('.user-results').removeClass('hide') // Display '.user-results' element
-    // })
-    // .catch(err => {
-    //   console.log(`Error getting data for ${username}`)
-    //   console.log(err)
-      /*
-        TODO
-        If there is an error finding the user, instead toggle the display of the '.user-error' element
-        and populate it's inner span '.error' element with an appropriate error message
-      */
-    
-
   return false // return false to prevent default form submission
 })

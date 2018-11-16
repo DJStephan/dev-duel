@@ -9,9 +9,10 @@ $('form').submit(() => {
   if(username){
     fetch(`${USER_URL}/${username}`)
     .then(response =>{
+      console.log(response.status)
       if(response.status === 200){
         
-      }else if (response.status === 400){
+      }else if (response.status === 404){
         throw new Error('User doesn\'t exist')
       }
       return response.json()
@@ -19,7 +20,8 @@ $('form').submit(() => {
     .then(data => {
       console.log(`Got data for ${username}`)
       console.log(data)
-      
+
+      $('.user-error').addClass('hide')
       $('.user-not-valid').addClass('hide')
       $('.no-user').addClass('hide')
       $('.username').text(data.username)
