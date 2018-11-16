@@ -28,6 +28,7 @@ export default () => {
     
     let url = `https://api.github.com/users/${req.params.username}`
      getUserData(url).then(data => res.send(data))
+     .catch(err => res.send(err))
     /*
       TODO
       Fetch data for user specified in path variable
@@ -38,13 +39,9 @@ export default () => {
   /** GET /api/users? - Get users */
   router.get('/users/', validate(validation.users), (req, res) => {
     let url = 'https://api.github.com/users/'
-    Promise.all([getUserData(url + req.query.username[0]), getUserData(url + req.query.username[1])]).then(data => res.send(data))
-    /*
-      TODO
-      Fetch data for users specified in query
-      parse/map data to appropriate structure and return as a JSON array
-    */
+    Promise.all([getUserData(url + req.query.username[0]), getUserData(url + req.query.username[1])])
+    .then(data => res.send(data))
+    .catch(err => res.send(err))
   })
-
   return router
 }

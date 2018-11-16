@@ -3,14 +3,13 @@ import axios from 'axios'
 
 
 export const getUserData = (url, req, res) => {
-    console.log(url)
+    //console.log(url)
     let userData = {}
     let urls = {}
     
     return axios.get(url, {headers: {Authorization: token}})
-        .then(data => data.data)
+        .then(data =>  data.data)
         .then(data => {
-          //console.log(data)
           userData.username = data.login
           userData.fullName = data.name
           userData.location = data.location
@@ -34,21 +33,9 @@ export const getUserData = (url, req, res) => {
             [userData.favoriteLanguage, titles]  = getFavoriteLanguage(data)
             userData.titles.push(...titles)
             userData.titles.push(...getTitles(data, userData.followers, userData.following))
-            //console.log(userData)
             return userData
-            //return axios.get('https://api.github.com/users/kentcdodds/following', {headers: {Authorization: token}})
         })
-        // .then(data => data.data)
-        // .then(data => {
-        //     userData.following = data.length
-        //     console.log(userData)
-        //     //return axios.get(urls.reposUrl, {headers: {Authorization: token}})
-        // })
-        // .then(data => data.data)
-        // .then(data => {
-        //     console.log(data)
-        // })
-    
+        .catch(err => err)
 }
 
 const getStars = repos => {
@@ -120,6 +107,11 @@ const getTitles = (repos, followers, following) => {
     if((forks/repos.length) > 0.5){
         titles.push('Forker')
     }
+    console.log(repos.length)
+    if(repos.length === 0){
+        titles.push('What am I doing here?')//custom title "What am I doing here" if user has zero repos
+    }
     return titles
 }
+
 
